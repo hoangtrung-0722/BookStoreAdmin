@@ -1,6 +1,7 @@
 const bookModel = require('../models/bookModel');
 
-module.exports.tables = (req, res) =>{
-    const book = bookModel.list();
-    res.render('tables', {book});
+module.exports.tables = async (req, res) => {
+    const books = await bookModel.list();
+    console.log("Get book list")
+    res.render('tables', {title: 'Table List', books});
 };
