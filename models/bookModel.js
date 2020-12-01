@@ -12,3 +12,8 @@ exports.get = async (id) => {
     const book = await booksCollection.findOne({_id: ObjectId(id)})
     return book;
 }
+
+exports.delete = async (id) => {
+    const booksCollection = db().collection('books');
+    await booksCollection.deleteOne({_id: new ObjectId(id)});
+}
