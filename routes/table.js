@@ -4,7 +4,9 @@ const router = express.Router();
 const tableController = require('../controllers/tableController');
 
 router.get('/', tableController.tables);
-router.post("/delete/:id", tableController.deleteRow);
+router.get('/table_edit/:id', tableController.tableEdit);
+router.post('/delete/:id', tableController.deleteRow);
+router.post('/update/:id', tableController.updateRow);
 
 
 module.exports = router;

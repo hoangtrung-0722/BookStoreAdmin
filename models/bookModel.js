@@ -17,3 +17,8 @@ exports.delete = async (id) => {
     const booksCollection = db().collection('books');
     await booksCollection.deleteOne({_id: new ObjectId(id)});
 }
+
+exports.update = async (id, updatedBook) => {
+    const booksCollection = db().collection('books');
+    await booksCollection.updateOne({_id: new ObjectId(id)}, {"$set": updatedBook});
+}
