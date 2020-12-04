@@ -22,3 +22,8 @@ exports.update = async (id, updatedBook) => {
     const booksCollection = db().collection('books');
     await booksCollection.updateOne({_id: new ObjectId(id)}, {"$set": updatedBook});
 }
+
+exports.insert = async (id, insertBook) => {
+    const booksCollection = db().collection('books');
+    await booksCollection.insertOne({_id: new ObjectId(id)}, {"$set": insertBook});
+}

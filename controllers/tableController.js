@@ -20,3 +20,7 @@ module.exports.updateRow = (req, res) => {
     bookModel.update(req.params.id, req.body);
     res.redirect('/tables');
 }
+
+module.exports.tableInsert = async (req, res) => {
+    res.render('table_insert');
+}
