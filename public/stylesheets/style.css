@@ -9,12 +9,16 @@ a {
 
 .form_edit{
   display: flex;
+  
 }
 
 .form_edit .label {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+}
+.form_edit .label label {
+  margin: 5px 0;
 }
 
 .form_edit .input {
@@ -25,7 +29,10 @@ a {
 }
 
 .form_edit .input input {
-  border-radius: 5px;
+  color: #212121;
+  border-radius: 3px;
   width: 70%;
   border: none;
+  height: 40px;
+  margin: 5px 0;
 }

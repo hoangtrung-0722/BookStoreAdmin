@@ -116,8 +116,8 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
-          <form name="formEditBook" method="POST" action="/tables/update/{{book._id}}">
-            <div class="form_edit row" >
+          <form name="formEditBook" method="POST" action="/tables/update/{{book._id}}" enctype="multipart/form-data">
+            <div class="form_edit row">
               <div class="label col-2">
                 <label for="bookTitle">Title: </label>
                 <label for="bookPrice">Price: </label>
@@ -128,32 +128,19 @@
 
               <div class="input col-10">
                 {{!-- input Title --}}
-              
-                  <input type="text"required name="title" value="{{book.title~}}">
-        
-
+                <input type="text" required name="title" value="{{book.title~}}">
                 {{!-- input Price --}}
-              
-                  <input type="text" required name="price" value="{{book.price}}">
-          
-
+                <input type="text" required name="price" value="{{book.price}}">
                 {{!-- input Base Price --}}
-              
-                  <input type="text" required name="oldPrice" value="{{book.oldPrice}}">
-            
+                <input type="text" required name="oldPrice" value="{{book.oldPrice}}">
                 {{!-- input First Cover --}}
-              
-                  <input type="text" required name="coverFirst" value="{{book.coverFirst}}">
-              
+                <input name="first_cover" class="form-control" type="file" id="formFileMultiple" multiple>
                 {{!-- input Second Cover --}}
-                
-                  <input type="text" required name="coverSecond" value="{{book.coverSecond}}">
-              
-
+                <input name="second_cover" class="form-control" type="file" id="formFileMultiple" multiple>
               </div>
             </div>
 
-            <input type="submit" value="Update">
+            <button type="submit" class="btn btn-primary">Save</button>
 
           </form>
         </div>
