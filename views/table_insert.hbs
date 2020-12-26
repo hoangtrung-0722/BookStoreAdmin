@@ -116,7 +116,7 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
-          <form name="formEditBook" method="POST" action="/tables/update/{{book._id}}" enctype="multipart/form-data">
+          <form name="formEditBook" method="POST" action="/tables/insert" enctype="multipart/form-data">
             <div class="form_edit row">
               <div class="label col-2">
                 <label for="bookTitle">Title: </label>
@@ -134,9 +134,9 @@
                 {{!-- input Base Price --}}
                 <input type="text" required name="oldPrice">
                 {{!-- input First Cover --}}
-                <input type="text" required name="coverFirst">
+                <input name="coverFirst" class="form-control" type="file" id="formFileMultiple" multiple>
                 {{!-- input Second Cover --}}
-                <input type="text" required name="coverSecond">
+                <input name="coverSecond" class="form-control" type="file" id="formFileMultiple" multiple>
               </div>
             </div>
             <div class="form-group">

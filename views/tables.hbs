@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="../assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+  <link href="../stylesheets/style.css" rel="stylesheet" />
 </head>
 
 <body class="dark-edition">
@@ -285,21 +286,21 @@
                     <table class="table table-hover">
                       <thead class="text-primary">
                         <th>Title</th>
-                        <th>Hot Label</th>
-                        <th>First Cover</th>
-                        <th>Second Cover</th>
+                        {{!-- <th>Hot Label</th> --}}
+                        {{!-- <th>First Cover</th> --}}
+                        {{!-- <th>Second Cover</th> --}}
                         <th>Price</th>
-                        <th>Base Price</th>
-
+                        {{!-- <th>Base Price</th> --}}
                       </thead>
-                      <tbody>
-                        {{#each books}}
+                      <p <tbody>
+                        {{#each data.books}}
                         <tr>
-                          {{#each this}}
-                          {{#unless @first}}
-                          <td>{{this}}</td>
-                          {{/unless}}
-                          {{/each}}
+                          <td>{{name}}</td>
+                          {{!-- <td></td> --}}
+                          {{!-- <td>{{this.coverFirst}}</td> --}}
+                          {{!-- <td>{{this.coverSecond}}</td> --}}
+                          <td>{{price}}</td>
+                          {{!-- <td>{{this.oldPrice}}</td> --}}
                           <td>
                             <a href="/tables/table_edit/{{_id}}">
                               <button class="btn-dark">
@@ -314,12 +315,47 @@
                           </td>
                         </tr>
                         {{/each}}
-                      </tbody>
+                        </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
+            <ul class="pagination">
+              <li class="page-item {{#equal data.currentPage 1}}disabled{{/equal}}">
+                <a class="page-link" href="/tables?page=1">&Lt;</a>
+              </li>
+              <li class="page-item {{#equal data.currentPage 1}}disabled{{/equal}}">
+                <a class="page-link" href="/tables?page={{data.prevPage}}">&lt;</a>
+              </li>
+              {{!-- Number Button --}}
+              {{#if data.prevPrevPage}}
+              <li class="page-item"><a class="page-link" href="/tables?page={{data.prevPrevPage}}">{{data.prevPrevPage}}</a>
+              </li>
+              {{/if}}
+              {{#if data.prevPage}}
+              <li class="page-item"><a class="page-link" href="/tables?page={{data.prevPage}}">{{data.prevPage}}</a>
+              </li>
+              {{/if}}
+              <li class="page-item active">
+                <span class="page-link">{{data.currentPage}}</span>
+              </li>
+              {{#if data.nextPage}}
+              <li class="page-item"><a class="page-link" href="/tables?page={{data.nextPage}}">{{data.nextPage}}</a>
+              </li>
+              {{/if}}
+              {{#if data.nextNextPage}}
+              <li class="page-item"><a class="page-link" href="/tables?page={{data.nextNextPage}}">{{data.nextNextPage}}</a>
+              </li>
+              {{/if}}
+              {{!-- End Number Button --}}
+              <li class="page-item {{#equal data.currentPage data.totalPage}}disabled{{/equal}}">
+                <a class="page-link" href="/tables?page={{data.nextPage}}">&gt;</a>
+              </li>
+              <li class="page-item {{#equal data.currentPage data.totalPage}}disabled{{/equal}}">
+                <a class="page-link" href="/tables?page={{data.totalPage}}">&Gt;</a>
+              </li>
+            </ul>
             <a href="/tables/table_insert">
               <button type="submit" class="btn btn-primary">Insert</button>
             </a>
@@ -406,7 +442,8 @@
           </a>
         </li>
         <li class="button-container">
-          <a href="https://www.creative-tim.com/product/material-dashboard-dark" target="_blank" class="btn btn-primary btn-block">Free Download</a>
+          <a href="https://www.creative-tim.com/product/material-dashboard-dark" target="_blank"
+            class="btn btn-primary btn-block">Free Download</a>
         </li>
         <!-- <li class="header-title">Want more components?</li>
             <li class="button-container">
@@ -415,12 +452,15 @@
                 </a>
             </li> -->
         <li class="button-container">
-          <a href="https://demos.creative-tim.com/material-dashboard-dark/docs/2.0/getting-started/introduction.html" target="_blank" class="btn btn-default btn-block">
+          <a href="https://demos.creative-tim.com/material-dashboard-dark/docs/2.0/getting-started/introduction.html"
+            target="_blank" class="btn btn-default btn-block">
             View Documentation
           </a>
         </li>
         <li class="button-container github-star">
-          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard/tree/dark-edition" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
+          <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard/tree/dark-edition"
+            data-icon="octicon-star" data-size="large" data-show-count="true"
+            aria-label="Star ntkme/github-buttons on GitHub">Star</a>
         </li>
         <li class="header-title">Thank you for 95 shares!</li>
         <li class="button-container text-center">
@@ -449,7 +489,8 @@
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.js?v=2.1.0"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-  {{!-- <script src="../assets/demo/demo.js"></script>
+  {{!--
+  <script src="../assets/demo/demo.js"></script>
   <script>
     $(document).ready(function () {
       $().ready(function () {
@@ -612,7 +653,7 @@
       });
     });
   </script> --}}
-  <script src="../public/javascripts/script.js"></script>
+  <script src="../javascripts/script.js"></script>
 </body>
 
 </html>

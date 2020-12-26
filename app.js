@@ -3,7 +3,8 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const { MongoClient } = require("mongodb");
+const hbs = require('hbs');
+require('dotenv').config();
 
 const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
@@ -15,7 +16,14 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.use(logger('dev'));
+//handlebars helpers registration
+hbs.registerHelper('equal', function(num1, num2, options) {
+  if (num1 === num2) {
+    return options.fn(this);
+  }
+})
+
+//app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
