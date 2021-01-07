@@ -1,32 +1,39 @@
 const bookService = require('../models/services/bookService');
+const Category = require('../models/Category');
 const formidable = require('formidable');
 const fs = require('fs');
 const path = require('path');
 const mv = require('mv');
 
-module.exports.tables = async (req, res) => {
-    const page = +req.query.page || 1; //try catch
+module.exports.books = async (req, res) => {
+    var page = 1;
+    try {
+        page = +req.query.page || 1;
+    } catch (err) {
+        console.error(err);
+        res.redirect('back');
+    }
     const data = await bookService.getPage(page);
-    res.render('tables', {
-        title: 'Table List',
-        data});
+    res.render('table_books', { title: 'Books List', data });
 };
 
-module.exports.tableEdit = async (req, res) => {
+module.exports.openBookEdit = async (req, res) => {
     const book = await bookService.get(req.params.id);
-    res.render('table_edit', { title: 'Update Book', book });
+    const categories = await Category.find();
+    res.render('book_edit', { title: 'Update Book', book, categories });
 }
 
-module.exports.tableInsert = async (req, res) => {
-    res.render('table_insert', { title: 'Insert Book' });
+module.exports.openBookInsert = async (req, res) => {
+    const categories = await Category.find();
+    res.render('book_insert', { title: 'Insert New Book', categories });
 }
 
-module.exports.deleteRow = (req, res) => {
+module.exports.deleteBook = (req, res) => {
     bookService.delete(req.params.id);
-    res.redirect('/tables');
+    res.redirect('/table_books');
 }
 
-module.exports.updateRow = (req, res) => {
+module.exports.updateBook = (req, res) => {
     const form = formidable({ multiples: true });
 
     form.parse(req, (err, fields, files) => {
@@ -35,14 +42,15 @@ module.exports.updateRow = (req, res) => {
             next(err);
             return;
         }
-        const first_cover = files.first_cover;
-        if (first_cover && first_cover.size > 0) {
-            const file_name = first_cover.path.split('\\').pop() + '.' + first_cover.name.split('.').pop();
-            fs.renameSync(first_cover.path, __dirname + '/../public/assets/img/book_cover/' + file_name);
-            fields.first_cover = '/assets/img/book_cover/' + file_name;
+        const cover_image = files.image;
+        if (cover_image && cover_image.size > 0) {
+            const file_name = cover_image.path.split('\\').pop() + '.' + cover_image.name.split('.').pop();
+            fs.renameSync(cover_image.path, __dirname + '/../public/assets/img/book_cover/' + file_name);
+            fields.cover_image = '/assets/img/book_cover/' + file_name;
         }
+        console.log(fields);
         bookService.update(req.params.id, fields).then(() => {
-            res.redirect('/tables');
+            res.redirect('/table_books');
         })
 
     });
@@ -50,7 +58,7 @@ module.exports.updateRow = (req, res) => {
 
 }
 
-module.exports.insertRow = async (req, res) => {
+module.exports.insertBook = async (req, res) => {
     const form = formidable({ multiples: true });
 
     form.parse(req, (err, fields, files) => {
@@ -59,7 +67,7 @@ module.exports.insertRow = async (req, res) => {
             next(err);
             return;
         }
-        
+
         const coverFirst = files.coverFirst;
         if (coverFirst && coverFirst.size > 0) {
             const file_name = coverFirst.path.split('\\').pop() + '.' + coverFirst.name.split('.').pop();

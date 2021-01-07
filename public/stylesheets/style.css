@@ -29,10 +29,61 @@ a {
 }
 
 .form_edit .input input {
-  color: #212121;
+  color: #ffffff;
   border-radius: 3px;
   width: 70%;
   border: none;
+  border-left: 1px solid #aaaaaa;
+  border-bottom: 1px solid #aaaaaa;
   height: 40px;
   margin: 5px 0;
+  background-color: #1e2435;
+}
+
+.form_edit .input textarea {
+  color: #ffffff;
+  border: none;
+  border-left: 1px solid #aaaaaa;
+  border-bottom: 1px solid #aaaaaa;
+  background-color: #1e2435;
+  width: 70%;
+}
+
+/* .table-responsive {
+  display: flex;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  width: 100%;
+} */
+
+.table-list th {
+  font-weight: bold !important;
+}
+
+.table-list td {
+  table-layout: fixed;
+  max-width: 250px;
+  height: 100px;
+  white-space: normal;
+}
+
+.table-list tr {
+  max-height: 250px;
+}
+
+.table-list .td-description {
+  overflow-y: auto;
+  height: 100px ;
+}
+
+.pagination {
+  justify-content: center;
+}
+
+.btn-insert {
+  font-size: 1rem;
+}
+
+.pagination .page-link {
+  padding: 10px 15px;
 }

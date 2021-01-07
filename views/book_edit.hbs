@@ -22,34 +22,7 @@
 
 <body class="dark-edition">
   <div class="wrapper ">
-    <div class="sidebar" data-color="purple" data-background-color="black" data-image="./assets/img/sidebar-2.jpg">
-      <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
-
-      Tip 2: you can also add an image using data-image tag
-  -->
-      <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Creative Tim
-        </a>
-      </div>
-      <div class="sidebar-wrapper">
-        <ul class="nav">
-          <li class="nav-item ">
-            <a class="nav-link" href="/dashboard">
-              <i class="material-icons">dashboard</i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-          <li class="nav-item active ">
-            <a class="nav-link" href="/tables">
-              <i class="material-icons">content_paste</i>
-              <p>Table List</p>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    {{> sidebar active_books=true}}
     <div class="main-panel">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
@@ -116,33 +89,48 @@
       <div class="content">
         <div class="container-fluid">
           <!-- your content here -->
-          <form name="formEditBook" method="POST" action="/tables/update/{{book._id}}" enctype="multipart/form-data">
+          <form name="formEditBook" method="POST" action="/table_books/update/{{book._id}}"
+            enctype="multipart/form-data">
             <div class="form_edit row">
               <div class="label col-2">
-                <label for="bookTitle">Title: </label>
-                <label for="bookPrice">Price: </label>
-                <label for="bookPrice">Base Price: </label>
-                <label for="coverFirst">First Cover: </label>
-                <label for="coverSecond">Second Cover: </label>
+                <label for="name">Name: </label>
+                <label for="price">Price: </label>
+                <label for="sale">Sale: </label>
+                <label for="image">Cover Image: </label>
+                <label for="category">Category: </label>
+                {{!-- <label for="description">Book Description: </label> --}}
               </div>
 
               <div class="input col-10">
                 {{!-- input Title --}}
-                <input type="text" required name="title" value="{{book.title~}}">
+                <input type="text" required name="name" value="{{book.name~}}">
                 {{!-- input Price --}}
-                <input type="text" required name="price" value="{{book.price}}">
-                {{!-- input Base Price --}}
-                <input type="text" required name="oldPrice" value="{{book.oldPrice}}">
-                {{!-- input First Cover --}}
-                <input name="first_cover" class="form-control" type="file" id="formFileMultiple" multiple>
-                {{!-- input Second Cover --}}
-                <input name="second_cover" class="form-control" type="file" id="formFileMultiple" multiple>
+                <input type="number" required name="price" value="{{book.price}}" min="0">
+                {{!-- input Sale --}}
+                <input type="number" name="sale" value="{{book.sale}}" min="0" max="100">
+                {{!-- input Cover Image --}}
+                <input name="image" class="form-control" type="file" id="formFileMultiple" multiple>
+                {{!-- input Category --}}
+                <input list="categories" name="category" value="{{book.category.name}}">
+                <datalist id="categories">
+                  {{#each categories}}
+                  <option value="{{name}}"></option>
+                  {{/each}}
+                </datalist>
+              </div>
+              {{!-- input Description --}}
+              <div class="col-2"><label for="description">Book Description: </label></div>
+              <div class="input col-10"><textarea rows="8" cols="60" name="description">{{book.description}}</textarea>
               </div>
             </div>
 
             <button type="submit" class="btn btn-primary">Save</button>
-
           </form>
+
+          <form method="POST" action="/table_books/delete/{{_id}}"></form>
+          <button type="submit" class="btn btn-danger">Delete</button>
+          </form>
+          <button class="btn btn-warning"><a href="/table_books">Cancel</a></button>
         </div>
       </div>
       <footer class="footer">
@@ -169,24 +157,21 @@
     </div>
   </div>
   <!--   Core JS Files   -->
-  <script src="./assets/js/core/jquery.min.js"></script>
-  <script src="./assets/js/core/popper.min.js"></script>
-  <script src="./assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../assets/js/core/jquery.min.js"></script>
+  <script src="../assets/js/core/popper.min.js"></script>
+  <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="https://unpkg.com/default-passive-events"></script>
-  <script src="./assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
   <!-- Chartist JS -->
-  <script src="./assets/js/plugins/chartist.min.js"></script>
+  <script src="../assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
-  <script src="./assets/js/plugins/bootstrap-notify.js"></script>
+  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="./assets/js/material-dashboard.js?v=2.1.0"></script>
-  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-  <script src="./assets/demo/demo.js"></script>
-  <script src="./javascript/script.js"></script>
+  <script src="../assets/js/material-dashboard.js?v=2.1.0"></script>
+
+  <script src="../public/javascripts/script.js"></script>
 </body>
 
 </html>
