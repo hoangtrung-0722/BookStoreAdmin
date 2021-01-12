@@ -73,7 +73,7 @@ a {
 
 .table-list .td-description {
   overflow-y: auto;
-  height: 100px ;
+  height: 100%;
 }
 
 .pagination {
@@ -86,4 +86,9 @@ a {
 
 .pagination .page-link {
   padding: 10px 15px;
+}
+
+.modal-body img {
+  width: 40%;
+
 }

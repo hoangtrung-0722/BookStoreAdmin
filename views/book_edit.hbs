@@ -25,7 +25,7 @@
     {{> sidebar active_books=true}}
     <div class="main-panel">
       <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
+      {{!-- <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navigation-example">
         <div class="container-fluid">
           <div class="navbar-wrapper">
             <a class="navbar-brand" href="javascript:void(0)">Table List</a>
@@ -84,7 +84,9 @@
             </ul>
           </div>
         </div>
-      </nav>
+      </nav> --}}
+      {{> navbar title="Update Book"}}
+
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
@@ -96,20 +98,62 @@
                 <label for="name">Name: </label>
                 <label for="price">Price: </label>
                 <label for="sale">Sale: </label>
-                <label for="image">Cover Image: </label>
+                <label for="images">Cover Images: </label>
+                <label></label>
+                <label></label>
                 <label for="category">Category: </label>
-                {{!-- <label for="description">Book Description: </label> --}}
               </div>
 
               <div class="input col-10">
                 {{!-- input Title --}}
                 <input type="text" required name="name" value="{{book.name~}}">
                 {{!-- input Price --}}
-                <input type="number" required name="price" value="{{book.price}}" min="0">
+                <input type="string" required name="price" value="{{book.price}}" min="0">
                 {{!-- input Sale --}}
-                <input type="number" name="sale" value="{{book.sale}}" min="0" max="100">
+                <input type="string" name="sale" value="{{book.sale}}">
                 {{!-- input Cover Image --}}
-                <input name="image" class="form-control" type="file" id="formFileMultiple" multiple>
+                <div class="d-flex">
+                  {{#if book.images.[0]}}
+                  <button type="button" class="btn btn-primary col-3" data-toggle="modal" data-target="#imageModal_0">
+                    View Image
+                  </button>
+                  {{> image_modal target="imageModal_0" image=book.images.[0]}}
+                  {{else}}
+                  <button type="button" class="btn btn-primary col-3">
+                    No Image Uploaded
+                  </button>
+                  {{/if}}
+                  <input name="image_0" class="form-control col-5" type="file" id="formFileMultiple" accept="image/*"
+                    {{#unless book.images.[0]}}required{{/unless}} multiple>
+                </div>
+                <div class="d-flex">
+                  {{#if book.images.[1]}}
+                  <button type="button" class="btn btn-primary col-3" data-toggle="modal" data-target="#imageModal_1">
+                    View Image
+                  </button>
+                  {{> image_modal target="imageModal_1" image=book.images.[1]}}
+                  {{else}}
+                  <button type="button" class="btn btn-primary col-3">
+                    No Image Uploaded
+                  </button>
+                  {{/if}}
+                  <input name="image_1" class="form-control col-5" type="file" id="formFileMultiple" accept="image/*"
+                    multiple>
+                </div>
+                <div class="d-flex">
+                  {{#if book.images.[2]}}
+                  <button type="button" class="btn btn-primary col-3" data-toggle="modal" data-target="#imageModal_2">
+                    View Image
+                  </button>
+                  {{> image_modal target="imageModal_2" image=book.images.[2]}}
+                  {{else}}
+                  <button type="button" class="btn btn-primary col-3">
+                    No Image Uploaded
+                  </button>
+                  {{/if}}
+                  <input name="image_2" class="form-control col-5" type="file" id="formFileMultiple" accept="image/*"
+                    multiple>
+                </div>
                 {{!-- input Category --}}
                 <input list="categories" name="category" value="{{book.category.name}}">
                 <datalist id="categories">
@@ -119,7 +163,7 @@
                 </datalist>
               </div>
               {{!-- input Description --}}
-              <div class="col-2"><label for="description">Book Description: </label></div>
+              <div class="label col-2"><label for="description">Book Description: </label></div>
               <div class="input col-10"><textarea rows="8" cols="60" name="description">{{book.description}}</textarea>
               </div>
             </div>
@@ -127,11 +171,54 @@
             <button type="submit" class="btn btn-primary">Save</button>
           </form>
 
-          <form method="POST" action="/table_books/delete/{{_id}}"></form>
-          <button type="submit" class="btn btn-danger">Delete</button>
-          </form>
+          <div class="modal fade" id="waitingModal" tabindex="-1" role="dialog" data-backdrop="true"
+            aria-labelledby="waitingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h5 class="modal-title">Putting the book on the shelf...</h5>
+                  <p>Please wait</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#warningModal">
+            delete
+          </button>
+          <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog .modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="warningModalLabel" style="color:red">WAIT A MINUTE!!!</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <h5 class="modal-title" id="warningModalLabel">{{book.name}}</h5>
+                  <p> will be deleted!!!</p>
+                </div>
+                <div class="modal-footer">
+                  <form method="POST" action="/table_books/delete/{{book._id}}">
+                    <button type="submit" class="btn btn-success">
+                      Yes
+                    </button>
+                  </form>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
           <button class="btn btn-warning"><a href="/table_books">Cancel</a></button>
         </div>
+
       </div>
       <footer class="footer">
         <div class="container-fluid">
@@ -157,21 +244,21 @@
     </div>
   </div>
   <!--   Core JS Files   -->
-  <script src="../assets/js/core/jquery.min.js"></script>
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../../assets/js/core/jquery.min.js"></script>
+  <script src="../../assets/js/core/popper.min.js"></script>
+  <script src="../../assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="https://unpkg.com/default-passive-events"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  {{!-- <script src="../../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script> --}}
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Chartist JS -->
-  <script src="../assets/js/plugins/chartist.min.js"></script>
+  <script src="../../assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
-  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <script src="../../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.js?v=2.1.0"></script>
+  <script src="../../assets/js/material-dashboard.js?v=2.1.0"></script>
 
-  <script src="../public/javascripts/script.js"></script>
+  <script src="../../public/javascripts/script.js"></script>
 </body>
 
 </html>

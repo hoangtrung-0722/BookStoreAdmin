@@ -4,13 +4,15 @@ const Category = require('../Category');
 
 const ITEM_PER_PAGE = 10;
 
-const totalPage = async (filter = {}) => {
+const DEFAULT_FILTERS = {isDeleted: false};
+
+const totalPage = async (filter = DEFAULT_FILTERS) => {
     const count = await Book.countDocuments(filter);
     return Math.ceil(count / ITEM_PER_PAGE);
 }
 
-exports.list = async () => {
-    const books = await Book.find({});
+exports.list = async (filter = DEFAULT_FILTERS) => {
+    const books = await Book.find(filter);
     return books;
 }
 
@@ -20,20 +22,30 @@ exports.get = async (id) => {
 }
 
 exports.delete = async (id) => {
-    await Book.deleteOne({_id: new mongoose.Types.ObjectId(id)});
+    const book = await Book.findOne({_id: new mongoose.Types.ObjectId(id)});
+    book.isDeleted = true;
+    // await Book.updateOne({_id: new mongoose.Types.ObjectId(id)}, {"$set": book});
+    await book.save();
 }
 
-exports.update = async (id, updatedBook) => {
+exports.update = async (id, updatedBook) => { 
+    updatedBook._id = id;
+    const category = await Category.findOne({name: updatedBook.category});
+    updatedBook.category = category._id;
     await Book.updateOne({_id: new mongoose.Types.ObjectId(id)}, {"$set": updatedBook});
 }
 
 exports.insert = async (id, insertBook) => {
-    await Book.insertOne({_id: new mongoose.Types.ObjectId(id)}, {"$set": insertBook});
+    const category = await Category.findOne({name: insertBook.category});
+    insertBook.category = category._id;
+    const newBook = new Book(insertBook);
+    //await newBook.save();
 }
 
-exports.getPage = async (page) => {
+exports.getPage = async (page, filter = DEFAULT_FILTERS) => {
+    filter.isDeleted = false;
     const total = await totalPage();
-    const books = await Book.find()
+    const books = await Book.find(filter)
                                  .skip(ITEM_PER_PAGE * (page - 1))
                                  .limit(ITEM_PER_PAGE)
                                  .populate('category');

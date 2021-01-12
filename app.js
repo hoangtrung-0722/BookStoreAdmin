@@ -1,11 +1,13 @@
+require('dotenv').config();
+require('./dal/database');
+
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const hbs = require('hbs');
-require('dotenv').config();
-require('./dal/database');
+const cloudinary = require('cloudinary').v2;
 
 const dashboardRouter = require('./routes/dashboard');
 const usersRouter = require('./routes/users');
@@ -24,6 +26,13 @@ hbs.registerHelper('equal', function(num1, num2, options) {
     return options.fn(this);
   }
 })
+
+//cloudinary setup
+cloudinary.config({
+  cloud_name: 'bookstore589623',
+  api_key: '633614294262385',
+  api_secret: 'etns0rgMa6-y96aYxBMpmYc6lSQ'
+});
 
 //app.use(logger('dev'));
 app.use(express.json());
