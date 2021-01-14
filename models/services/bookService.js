@@ -61,3 +61,48 @@ exports.getPage = async (page, filter = DEFAULT_FILTERS) => {
         totalPage: total
     };
 }
+
+exports.search = async (page, q, filter = DEFAULT_FILTERS) =>{
+    filter.isDeleted = false;
+    filter.name = {'$regex': q, $options:"$i"};
+
+    const total = await totalPage();
+    const books = await Book.find(filter)
+                                 .skip(ITEM_PER_PAGE * (page - 1))
+                                 .limit(ITEM_PER_PAGE)
+                                 .populate('category');
+    const categories = await Category.find();
+    return {
+        books: books,
+        categories: categories,
+        prevPrevPage: page > 2 ? page - 2 : undefined,
+        prevPage: page > 1 ? page - 1 : undefined,
+        currentPage: page,
+        nextPage: page < total ? page + 1 : undefined,
+        nextNextPage: page < total - 1 ? page + 2 : undefined,
+        totalPage: total
+    };
+}
+
+
+exports.azSort = async (sort, filter = DEFAULT_FILTERS) =>{
+    filter.isDeleted = false;
+
+    const total = await totalPage();
+    const books = await Book.find(filter)
+                                .sort({name: sort})
+                                 .skip(ITEM_PER_PAGE * (page - 1))
+                                 .limit(ITEM_PER_PAGE)
+                                 .populate('category');
+    const categories = await Category.find();
+    return {
+        books: books,
+        categories: categories,
+        prevPrevPage: page > 2 ? page - 2 : undefined,
+        prevPage: page > 1 ? page - 1 : undefined,
+        currentPage: page,
+        nextPage: page < total ? page + 1 : undefined,
+        nextNextPage: page < total - 1 ? page + 2 : undefined,
+        totalPage: total
+    };
+}

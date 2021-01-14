@@ -9,13 +9,19 @@ const mongoose = require('mongoose');
 
 module.exports.books = async (req, res) => {
     var page = 1;
+    const q = req.query.q;
     try {
         page = +req.query.page || 1;
     } catch (err) {
         console.error(err);
         res.redirect('back');
     }
-    const data = await bookService.getPage(page);
+    let data;
+    if(!q){
+        data = await bookService.getPage(page);
+    } else{
+        data = await bookService.search(page, q);
+    }
     res.render('table_books', { title: 'Books List', data });
 };
 
