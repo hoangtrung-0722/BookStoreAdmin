@@ -16,3 +16,8 @@ module.exports.users = async (req, res) => {
 
     res.render('table_users', { title: 'Users List', data });
 };
+
+module.exports.detail = async (req, res) => {
+    let data = await userService.get(req.params.id);
+    res.render('user_detail', { title: 'Users Detail', data });
+};
