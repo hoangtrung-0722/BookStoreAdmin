@@ -23,7 +23,6 @@ exports.getPage = async (page) => {
                                  .skip(ITEM_PER_PAGE * (page - 1))
                                  .limit(ITEM_PER_PAGE);
     const total = await totalUserPage();
-    console.log(users);
     return {
         users: users,
         prevPrevPage: page > 2 ? page - 2 : undefined,
