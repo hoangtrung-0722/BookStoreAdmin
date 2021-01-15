@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const userService = require('../models/services/userService');
-const Users = require('../models/Users');
 
 module.exports.users = async (req, res) => {
     var page = 1;

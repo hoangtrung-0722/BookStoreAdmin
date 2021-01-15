@@ -61,7 +61,6 @@
                         <th>Category</th>
                         <th>Description</th>
                         <th>Views</th>
-                        <th>Buys</th>
                         <th>Edit books</th>
                       </thead>
                       <tbody>
@@ -75,8 +74,7 @@
                           <td>
                             <div class="td-description">{{description}}</div>
                           </td>
-                          <td></td>
-                          <td></td>
+                          <td>{{views}}</td>
                           <td>
                             <a href="/table_books/book_edit/{{_id}}">
                               <button class="btn btn-primary">
@@ -92,8 +90,7 @@
                               data-target="#warningModal">
                               <i class="material-icons">delete</i>
                             </button>
-                          </td>
-                          <div class="modal fade" id="warningModal" tabindex="-1" role="dialog"
+                                                      <div class="modal fade" id="warningModal" tabindex="-1" role="dialog"
                             aria-labelledby="warningModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -104,7 +101,7 @@
                                   </button>
                                 </div>
                                 <div class="modal-body">
-                                  <h5 class="modal-title" id="warningModalLabel">{{name}}</h5>
+                                  <h5 class="modal-title" id="warningModalLabel">{{this.name}}</h5>
                                   <p> will be deleted!!!</p>
                                 </div>
                                 <div class="modal-footer">
@@ -118,6 +115,8 @@
                               </div>
                             </div>
                           </div>
+                          </td>
+
                         </tr>
                         {{/each}}
                       </tbody>
@@ -180,7 +179,7 @@
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="https://unpkg.com/default-passive-events"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  {{!-- <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script> --}}
   <!-- Place this tag in your head or just before your close body tag. -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Chartist JS -->
@@ -190,7 +189,7 @@
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.js?v=2.1.0"></script>
 
-  <script src="../public/javascripts/script.js"></script>
+  <script src="../javascripts/script.js"></script>
 </body>
 
 </html>

@@ -11,6 +11,7 @@ const bookSchema = new mongoose.Schema ({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category'
     },
+    views: Number,
     createdAt: {type: Date, default: Date.now},
     updatedAt: {type: Date, default: Date.now}
 });

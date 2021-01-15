@@ -15,20 +15,14 @@
                     <p>Dashboard</p>
                 </a>
             </li>
-            {{!-- <li class="nav-item ">
-                <a class="nav-link" href="/user">
-                    <i class="material-icons">person</i>
-                    <p>User Profile</p>
-                </a>
-            </li> --}}
             <li class="nav-item {{#if active_books}}active{{/if}}">
-                <a class="nav-link" href="/table_books">
+                <a class="nav-link" href="{{#if currentUser}}/table_books{{else}}#{{/if}}">
                     <i class="material-icons">content_paste</i>
                     <p>Books List</p>
                 </a>
             </li>
             <li class="nav-item {{#if active_users}}active{{/if}}">
-                <a class="nav-link" href="/users/table_users">
+                <a class="nav-link" href="{{#if currentUser}}/users/table_users{{else}}#{{/if}}">
                     <i class="material-icons">account_box</i>
                     <p>Users List</p>
                 </a>

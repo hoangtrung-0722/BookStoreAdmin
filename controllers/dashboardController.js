@@ -1,5 +1,7 @@
-const bookService = require('../models/services/bookService');
-
 module.exports.dashboard = (req, res, next) => {
-    res.render('dashboard', {title: 'Admin'});
+  if (!req.isAuthenticated()) {
+    res.redirect("/login");
+  } else {
+    res.render("dashboard", { title: "Admin" });
+  }
 };

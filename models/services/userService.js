@@ -1,4 +1,4 @@
-const Users = require('../Users');
+const Users = require('../User');
 const mongoose = require('mongoose');
 
 const ITEM_PER_PAGE = 10;
