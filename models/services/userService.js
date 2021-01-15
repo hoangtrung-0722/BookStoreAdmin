@@ -19,7 +19,7 @@ exports.get = async (id) => {
 }
 
 exports.getPage = async (page) => {
-    const users = await Users.find()
+    const users = await Users.find({isAdmin: false})
                                  .skip(ITEM_PER_PAGE * (page - 1))
                                  .limit(ITEM_PER_PAGE);
     const total = await totalUserPage();
